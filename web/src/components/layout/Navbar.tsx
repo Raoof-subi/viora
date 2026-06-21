@@ -1,0 +1,108 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { Menu } from "lucide-react";
+import { GoldButton } from "@/components/ui/GoldButton";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { scrollToSection } from "@/lib/utils";
+import type { SiteSettings } from "@/types";
+
+const navLinks = [
+  { label: "About", href: "about" },
+  { label: "Services", href: "services" },
+  { label: "Portfolio", href: "portfolio" },
+  { label: "Process", href: "process" },
+  { label: "Contact", href: "contact" },
+];
+
+interface NavbarProps {
+  settings: SiteSettings;
+}
+
+export function Navbar({ settings }: NavbarProps) {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleNavClick = (href: string) => {
+    scrollToSection(href);
+    setOpen(false);
+  };
+
+  return (
+    <motion.header
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, delay: 2.2, ease: [0.22, 1, 0.36, 1] }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? "border-b border-white/5 bg-black/80 backdrop-blur-xl"
+          : "bg-transparent"
+      }`}
+    >
+      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-12 lg:px-20">
+        <Link
+          href="/"
+          className="font-serif text-2xl font-bold tracking-[0.2em] text-gold transition-colors hover:text-gold-light"
+        >
+          {settings.logoText}
+        </Link>
+
+        <div className="hidden items-center gap-8 lg:flex">
+          {navLinks.map((link) => (
+            <button
+              key={link.href}
+              onClick={() => handleNavClick(link.href)}
+              className="text-sm uppercase tracking-widest text-muted transition-colors hover:text-gold"
+            >
+              {link.label}
+            </button>
+          ))}
+          <GoldButton size="sm" onClick={() => handleNavClick("contact")}>
+            Start a Project
+          </GoldButton>
+        </div>
+
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild className="lg:hidden">
+            <button className="text-foreground" aria-label="Open menu">
+              <Menu className="h-6 w-6" />
+            </button>
+          </SheetTrigger>
+          <SheetContent side="right">
+            <SheetHeader>
+              <SheetTitle className="text-gold">{settings.logoText}</SheetTitle>
+            </SheetHeader>
+            <div className="mt-8 flex flex-col gap-6">
+              {navLinks.map((link) => (
+                <button
+                  key={link.href}
+                  onClick={() => handleNavClick(link.href)}
+                  className="text-left text-lg uppercase tracking-widest text-muted transition-colors hover:text-gold"
+                >
+                  {link.label}
+                </button>
+              ))}
+              <GoldButton onClick={() => handleNavClick("contact")}>
+                Start a Project
+              </GoldButton>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </nav>
+    </motion.header>
+  );
+}
