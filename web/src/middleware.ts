@@ -1,21 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
+import { getJwtSecret } from "@/lib/auth/config";
 
 const TOKEN_COOKIE = "viora_token";
 
-function getSecret() {
-  const secret = process.env.JWT_SECRET;
-  if (secret) {
-    return new TextEncoder().encode(secret);
-  }
-  if (process.env.NODE_ENV !== "production") {
-    return new TextEncoder().encode("local-dev-jwt-secret");
-  }
-  return null;
-}
-
 async function verifyToken(token: string) {
-  const secret = getSecret();
+  const secret = getJwtSecret();
   if (!secret) return false;
 
   try {

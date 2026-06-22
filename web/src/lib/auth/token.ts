@@ -1,18 +1,8 @@
 import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
+import { getJwtSecret } from "@/lib/auth/config";
 
 const TOKEN_COOKIE = "viora_token";
-
-function getSecret() {
-  const secret = process.env.JWT_SECRET;
-  if (secret) {
-    return new TextEncoder().encode(secret);
-  }
-  if (process.env.NODE_ENV !== "production") {
-    return new TextEncoder().encode("local-dev-jwt-secret");
-  }
-  return null;
-}
 
 export async function getTokenFromCookies(): Promise<string | null> {
   const cookieStore = await cookies();
@@ -20,7 +10,7 @@ export async function getTokenFromCookies(): Promise<string | null> {
 }
 
 export async function verifyAuthToken(token: string) {
-  const secret = getSecret();
+  const secret = getJwtSecret();
   if (!secret) return null;
 
   try {
