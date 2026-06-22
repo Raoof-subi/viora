@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { appendLocalContactSubmission } from "@/lib/data/local";
+import { appendContactSubmission, StorageWriteError } from "@/lib/data/storage";
 import { contactSchema } from "@/lib/validators/schemas";
 
 export async function POST(request: Request) {
@@ -14,9 +14,13 @@ export async function POST(request: Request) {
       );
     }
 
-    await appendLocalContactSubmission(parsed.data);
+    await appendContactSubmission(parsed.data);
     return NextResponse.json({ success: true });
   } catch (error) {
+    if (error instanceof StorageWriteError) {
+      return NextResponse.json({ error: error.message }, { status: 503 });
+    }
+
     console.error("[Contact API Error]", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

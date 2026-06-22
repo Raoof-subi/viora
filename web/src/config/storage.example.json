@@ -1,0 +1,12 @@
+{
+  "github": {
+    "owner": "",
+    "repo": "",
+    "branch": "main",
+    "token": ""
+  },
+  "files": {
+    "page": "web/src/data/page.json",
+    "contactSubmissions": "web/src/data/contact-submissions.json"
+  }
+}

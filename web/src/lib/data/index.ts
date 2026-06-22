@@ -1,6 +1,6 @@
-import { loadLocalPageData } from "@/lib/data/local";
+import { loadPageData } from "@/lib/data/storage";
 import type { PageData } from "@/types";
 
 export async function getPageData(): Promise<PageData> {
-  return loadLocalPageData();
+  return loadPageData();
 }

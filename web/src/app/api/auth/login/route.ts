@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { signAuthToken } from "@/lib/auth/signToken";
 import { TOKEN_COOKIE } from "@/lib/auth/token";
-import { authenticateLocalAdmin } from "@/lib/data/local";
+import { authenticateAdmin } from "@/lib/data/storage";
 import { loginSchema } from "@/lib/validators/schemas";
 
 export async function POST(request: NextRequest) {
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     }
 
     const { email, password } = parsed.data;
-    const user = await authenticateLocalAdmin(email, password);
+    const user = await authenticateAdmin(email, password);
 
     if (!user) {
       return NextResponse.json(

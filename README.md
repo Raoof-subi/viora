@@ -1,97 +1,84 @@
 # VIORA — Luxury Creative Agency Website
 
-A premium corporate website for VIORA, built with Next.js, TypeScript, Tailwind CSS, and Framer Motion. All content, settings, contact submissions, and admin credentials are stored in local JSON files — no separate backend or database required.
+A premium corporate website for VIORA, built with Next.js, TypeScript, Tailwind CSS, and Framer Motion. Site content, admin credentials, and form submissions are stored as **JSON files in your Git repository** — no database or separate backend required.
 
-## Project Structure
+## How data is stored
 
-```
-viora-website/
-├── web/              # Next.js app (port 3000)
-│   ├── src/data/     # Default page content and admin credentials
-│   └── data/local/   # Writable runtime data (settings, submissions)
-└── README.md
-```
+| Data | File | How to update |
+|------|------|----------------|
+| Admin login | `web/src/data/admin.json` | Edit the file, commit, and push |
+| Site content | `web/src/data/page.json` | Admin CMS (with GitHub storage) or edit the file directly |
+| Contact submissions | `web/src/data/contact-submissions.json` | Saved automatically when GitHub storage is configured |
 
-## Prerequisites
+### Local development
 
-- Node.js 20+
+Writes go to `web/data/local/` on your machine. No extra setup needed.
+
+### Vercel / production
+
+Vercel cannot save files on its server. For the admin CMS and contact form to **save** data in production, connect your GitHub repo:
+
+1. Copy `web/src/config/storage.example.json` to `web/src/config/storage.json` (already present)
+2. Fill in your GitHub username and repo name:
+   ```json
+   {
+     "github": {
+       "owner": "your-github-username",
+       "repo": "viora",
+       "branch": "main",
+       "token": "ghp_your_token_here"
+     },
+     "files": {
+       "page": "web/src/data/page.json",
+       "contactSubmissions": "web/src/data/contact-submissions.json"
+     }
+   }
+   ```
+3. Create a [GitHub personal access token](https://github.com/settings/tokens) with **Contents: Read and write** on this repo
+4. Paste the token into `storage.json`, commit, and push — no Vercel environment variables needed
+
+The app reads and writes JSON files directly in your repo via the GitHub API. Changes appear on the site after the next deployment (or immediately if you fetch from GitHub at runtime).
 
 ## Quick Start
 
 ```bash
 cd web
-cp .env.example .env.local
 npm install
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
 
-For production, generate a JWT secret:
-
-```bash
-cd web
-npm run generate-secrets
-```
-
-Copy the output into `web/.env.local` as `JWT_SECRET`.
-
 ## Admin CMS
 
-1. Visit `http://localhost:3000/admin/login`
+1. Visit `/admin/login`
 2. Sign in with credentials from `web/src/data/admin.json` (default: `admin@viora.com` / `changeme`)
-3. Use the dashboard to:
-   - **Site Settings** — edit hero text, contact info, social links (saved to `data/local/page.json`)
-   - **Contact Submissions** — view form messages (stored in `data/local/contact-submissions.json`)
+3. Change the password in `admin.json` and push to deploy the new credentials
 
-## Local Data Files
+## Project Structure
 
-| File | Purpose |
-|------|---------|
-| `web/src/data/page.json` | Default homepage content |
-| `web/src/data/admin.json` | Default admin credentials |
-| `web/data/local/page.json` | Saved settings override (created on first save) |
-| `web/data/local/admin.json` | Optional admin credentials override |
-| `web/data/local/contact-submissions.json` | Contact form submissions |
-
-Set `LOCAL_DATA_PATH` in `.env.local` to use a custom path for page data.
-
-## Features
-
-- Full-screen hero with video background (poster fallback)
-- Sticky transparent navbar with scroll blur
-- Scroll progress indicator
-- Premium loading screen
-- Animated statistics counters
-- Glassmorphism service cards with hover reveal
-- Portfolio filtering with Framer Motion transitions
-- Testimonial carousel (Embla)
-- Process timeline with scroll animation
-- Infinite client logo marquee
-- Contact form with validation and JSON file storage
-- Password-protected admin CMS with JWT auth
-- WhatsApp CTA
-- SEO metadata, sitemap, robots.txt, JSON-LD
-- Mobile-first responsive design
-- Dark luxury theme (black + gold #D4AF37)
+```
+web/
+├── src/
+│   ├── config/storage.json      # GitHub file storage config
+│   └── data/
+│       ├── admin.json           # Admin credentials
+│       ├── page.json            # Site content
+│       └── contact-submissions.json
+└── data/local/                  # Local dev writes only (gitignored)
+```
 
 ## Deployment (Vercel)
 
-1. Set the Vercel project **Root Directory** to `web`
-2. Deploy — **no environment variables required** for admin login
-3. Optional: set `JWT_SECRET` for a stronger session signing key (available on Vercel's free Hobby plan under Project Settings → Environment Variables)
-4. Optional: set `NEXT_PUBLIC_SITE_URL` to your production URL
+1. Set **Root Directory** to `web`
+2. Configure `src/config/storage.json` with your GitHub repo + token (see above)
+3. Deploy — login works from `admin.json` with no env vars required
 
-Default admin login: `admin@viora.com` / `changeme` (from `src/data/admin.json`). Change the password in that file and redeploy.
-
-Writable data in `data/local/` does not persist on Vercel's serverless filesystem. Settings and contact submissions will reset between deployments unless you use external storage.
+Optional: set `JWT_SECRET` in Vercel env vars or `web/.env.local` for a stronger session key.
 
 ## Tech Stack
 
 - Next.js 16 (App Router)
+- JSON file storage (local disk + GitHub API)
 - JWT authentication (jose)
-- TypeScript
-- Tailwind CSS v4
-- Framer Motion
-- React Hook Form + Zod
-- Embla Carousel
+- TypeScript, Tailwind CSS v4, Framer Motion

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getTokenFromCookies } from "@/lib/auth/token";
-import { loadLocalContactSubmissions } from "@/lib/data/local";
+import { loadContactSubmissions } from "@/lib/data/storage";
 
 export async function GET() {
   const token = await getTokenFromCookies();
@@ -8,6 +8,6 @@ export async function GET() {
     return NextResponse.json({ error: "Authentication required" }, { status: 401 });
   }
 
-  const submissions = await loadLocalContactSubmissions();
+  const submissions = await loadContactSubmissions();
   return NextResponse.json({ submissions });
 }
