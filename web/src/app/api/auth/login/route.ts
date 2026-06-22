@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { JwtSecretMissingError } from "@/lib/auth/config";
 import { signAuthToken } from "@/lib/auth/signToken";
 import { TOKEN_COOKIE } from "@/lib/auth/token";
 import { authenticateLocalAdmin } from "@/lib/data/local";
@@ -41,17 +40,6 @@ export async function POST(request: NextRequest) {
 
     return res;
   } catch (error) {
-    if (error instanceof JwtSecretMissingError) {
-      console.error("[Auth Login Error]", error.message);
-      return NextResponse.json(
-        {
-          error:
-            "Server misconfigured: set JWT_SECRET in your Vercel project environment variables, then redeploy.",
-        },
-        { status: 503 }
-      );
-    }
-
     console.error("[Auth Login Error]", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

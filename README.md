@@ -78,12 +78,11 @@ Set `LOCAL_DATA_PATH` in `.env.local` to use a custom path for page data.
 ## Deployment (Vercel)
 
 1. Set the Vercel project **Root Directory** to `web`
-2. Add environment variables in **Project Settings → Environment Variables**:
-   - `JWT_SECRET` — **required** (run `npm run generate-secrets` locally and paste the value)
-   - `NEXT_PUBLIC_SITE_URL` — your production URL (e.g. `https://viora-rouge.vercel.app`)
-3. Redeploy after adding env vars
+2. Deploy — **no environment variables required** for admin login
+3. Optional: set `JWT_SECRET` for a stronger session signing key (available on Vercel's free Hobby plan under Project Settings → Environment Variables)
+4. Optional: set `NEXT_PUBLIC_SITE_URL` to your production URL
 
-Default admin login: `admin@viora.com` / `changeme` (from `src/data/admin.json`).
+Default admin login: `admin@viora.com` / `changeme` (from `src/data/admin.json`). Change the password in that file and redeploy.
 
 Writable data in `data/local/` does not persist on Vercel's serverless filesystem. Settings and contact submissions will reset between deployments unless you use external storage.
 
