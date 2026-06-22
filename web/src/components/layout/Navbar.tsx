@@ -12,6 +12,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Logo } from "@/components/ui/Logo";
 import { scrollToSection } from "@/lib/utils";
 import type { SiteSettings } from "@/types";
 
@@ -54,11 +55,8 @@ export function Navbar({ settings }: NavbarProps) {
       }`}
     >
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:px-12 lg:px-20">
-        <Link
-          href="/"
-          className="font-serif text-2xl font-bold tracking-[0.2em] text-gold transition-colors hover:text-gold-light"
-        >
-          {settings.logoText}
+        <Link href="/" className="transition-opacity hover:opacity-90">
+          <Logo size="md" priority />
         </Link>
 
         <div className="hidden items-center gap-8 lg:flex">
@@ -84,7 +82,8 @@ export function Navbar({ settings }: NavbarProps) {
           </SheetTrigger>
           <SheetContent side="right">
             <SheetHeader>
-              <SheetTitle className="text-gold">{settings.logoText}</SheetTitle>
+              <SheetTitle className="sr-only">{settings.logoText}</SheetTitle>
+              <Logo size="md" />
             </SheetHeader>
             <div className="mt-8 flex flex-col gap-6">
               {navLinks.map((link) => (

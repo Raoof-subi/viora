@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Logo } from "@/components/ui/Logo";
 
 export function AdminLoginPage() {
   const router = useRouter();
@@ -45,7 +46,9 @@ export function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center px-4">
       <div className="w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.03] p-8 shadow-luxury">
         <div className="mb-8 text-center">
-          <p className="font-serif text-3xl tracking-[0.2em] text-gold">VIORA</p>
+          <div className="flex justify-center">
+            <Logo size="md" />
+          </div>
           <h1 className="mt-2 font-serif text-2xl text-white">Admin Sign In</h1>
           <p className="mt-2 text-sm text-muted">
             Enter your credentials to access the CMS.

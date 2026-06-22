@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "id": "local-admin",
+      "email": "admin@viora.com",
+      "password": "changeme",
+      "name": "Local Admin",
+      "role": "admin"
+    }
+  ]
+}

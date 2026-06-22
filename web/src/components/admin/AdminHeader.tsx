@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
+import { Logo } from "@/components/ui/Logo";
 
 export function AdminHeader() {
   const router = useRouter();
@@ -17,8 +18,8 @@ export function AdminHeader() {
     <header className="flex shrink-0 items-center justify-between border-b border-white/10 bg-black px-4 py-3">
       <div>
         <Link href="/admin" className="block">
-          <p className="font-serif text-lg tracking-wide text-gold">VIORA Admin</p>
-          <p className="text-xs text-muted">Content Management</p>
+          <Logo size="sm" />
+          <p className="mt-1 text-xs text-muted">Content Management</p>
         </Link>
       </div>
       <nav className="flex items-center gap-4">

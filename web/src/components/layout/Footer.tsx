@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/ui/Logo";
 import { SocialIcon } from "@/components/ui/SocialIcons";
 import type { SiteSettings, Service } from "@/types";
 
@@ -15,9 +16,7 @@ export function Footer({ settings, services }: FooterProps) {
       <div className="section-padding mx-auto max-w-7xl">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <h3 className="font-serif text-3xl font-bold tracking-[0.2em] text-gold">
-              {settings.logoText}
-            </h3>
+            <Logo size="lg" />
             <p className="mt-4 text-sm leading-relaxed text-muted">
               {settings.tagline}. Crafting luxury brand experiences that inspire
               and endure.

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Logo } from "@/components/ui/Logo";
 
 export function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
@@ -24,18 +25,16 @@ export function LoadingScreen() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center"
+            className="flex flex-col items-center"
           >
-            <h1 className="font-serif text-5xl font-bold tracking-[0.3em] text-gold md:text-7xl">
-              VIORA
-            </h1>
+            <Logo size="lg" priority />
             <motion.div
-              className="mx-auto mt-6 h-px bg-gold"
+              className="mt-8 h-px bg-gold"
               initial={{ width: 0 }}
-              animate={{ width: 120 }}
+              animate={{ width: 200 }}
               transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
             />
-            <p className="mt-4 text-xs uppercase tracking-[0.4em] text-muted">
+            <p className="mt-5 text-xs uppercase tracking-[0.4em] text-muted pl-[0.4em]">
               Creative Agency
             </p>
           </motion.div>
