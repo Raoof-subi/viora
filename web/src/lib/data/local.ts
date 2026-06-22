@@ -2,7 +2,7 @@ import defaultAdminData from "@/data/admin.json";
 import { readFile, writeFile, mkdir } from "fs/promises";
 import path from "path";
 import defaultPageData from "@/data/page.json";
-import { getDataSourceConfig } from "@/lib/data/config";
+import { getLocalDataPath } from "@/lib/data/config";
 import type { PageData, SiteSettings } from "@/types";
 
 export interface ContactSubmission {
@@ -41,7 +41,7 @@ const CONTACT_SUBMISSIONS_PATH = path.join(
 );
 
 function resolvePageDataPath(): string {
-  const { localDataPath } = getDataSourceConfig();
+  const localDataPath = getLocalDataPath();
   if (localDataPath) {
     return path.isAbsolute(localDataPath)
       ? localDataPath

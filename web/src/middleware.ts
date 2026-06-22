@@ -3,12 +3,23 @@ import { jwtVerify } from "jose";
 
 const TOKEN_COOKIE = "viora_token";
 
-async function verifyToken(token: string) {
+function getSecret() {
   const secret = process.env.JWT_SECRET;
+  if (secret) {
+    return new TextEncoder().encode(secret);
+  }
+  if (process.env.NODE_ENV !== "production") {
+    return new TextEncoder().encode("local-dev-jwt-secret");
+  }
+  return null;
+}
+
+async function verifyToken(token: string) {
+  const secret = getSecret();
   if (!secret) return false;
 
   try {
-    await jwtVerify(token, new TextEncoder().encode(secret));
+    await jwtVerify(token, secret);
     return true;
   } catch {
     return false;

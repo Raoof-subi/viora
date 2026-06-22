@@ -1,6 +1,5 @@
 import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
-import { isLocalDataMode } from "@/lib/data/config";
 
 const TOKEN_COOKIE = "viora_token";
 
@@ -9,7 +8,7 @@ function getSecret() {
   if (secret) {
     return new TextEncoder().encode(secret);
   }
-  if (isLocalDataMode() && process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== "production") {
     return new TextEncoder().encode("local-dev-jwt-secret");
   }
   return null;

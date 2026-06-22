@@ -13,9 +13,6 @@ web/out/
 web/build/
 web/data/local/
 
-# API build output
-api/dist/
-
 # TypeScript
 *.tsbuildinfo
 web/next-env.d.ts

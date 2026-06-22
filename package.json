@@ -3,9 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "npm run dev --prefix web",
-    "dev:studio": "npm run dev --prefix studio",
     "build": "npm run build --prefix web",
-    "build:studio": "npm run build --prefix studio",
     "lint": "npm run lint --prefix web",
     "postinstall": "npm install --prefix web"
   }
