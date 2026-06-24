@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { GlassCard } from "@/components/ui/GlassCard";
-import { fadeInUp, staggerContainer } from "@/lib/motion";
+import { perspectiveReveal, staggerContainer, viewportFade } from "@/lib/motion";
 import type { Feature } from "@/types";
 
 const iconMap: Record<string, LucideIcon> = {
@@ -37,13 +37,14 @@ export function WhyViora({ features }: WhyVioraProps) {
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={viewportFade}
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          style={{ perspective: 1200 }}
         >
           {features.map((feature) => {
             const Icon = iconMap[feature.icon] ?? Sparkles;
             return (
-              <motion.div key={feature._id} variants={fadeInUp}>
+              <motion.div key={feature._id} variants={perspectiveReveal}>
                 <GlassCard className="h-full text-center">
                   <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gold/10 text-gold">
                     <Icon className="h-8 w-8" />

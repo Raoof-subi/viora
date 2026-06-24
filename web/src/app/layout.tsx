@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
+import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { CustomCursor } from "@/components/ui/CustomCursor";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -70,7 +73,11 @@ export default function RootLayout({
       <body
         className={`${playfair.variable} ${inter.variable} min-h-full bg-black font-sans text-foreground antialiased`}
       >
-        {children}
+        <SmoothScroll>
+          <CustomCursor />
+          <ScrollProgress />
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );

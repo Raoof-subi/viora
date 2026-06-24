@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { fadeInUp } from "@/lib/motion";
 import type { ClientLogo } from "@/types";
 
 interface ClientsProps {
@@ -20,7 +22,13 @@ export function Clients({ logos }: ClientsProps) {
         />
       </div>
 
-      <div className="relative mt-4">
+      <motion.div
+        variants={fadeInUp}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="relative mt-4"
+      >
         <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-24 bg-gradient-to-r from-black to-transparent" />
         <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-24 bg-gradient-to-l from-black to-transparent" />
 
@@ -46,7 +54,7 @@ export function Clients({ logos }: ClientsProps) {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

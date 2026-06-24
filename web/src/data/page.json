@@ -60,6 +60,7 @@
       "slug": "branding",
       "description": "Craft distinctive brand identities that command attention and build lasting recognition.",
       "icon": "Palette",
+      "videoUrl": "/videos/services/branding.mp4",
       "subServices": [
         "Brand Strategy",
         "Logo Design",
@@ -73,6 +74,7 @@
       "slug": "event-management",
       "description": "Design and execute premium events that leave guests inspired and brands elevated.",
       "icon": "Calendar",
+      "videoUrl": "/videos/services/events.mp4",
       "subServices": [
         "Corporate Events",
         "Product Launches",
@@ -86,6 +88,7 @@
       "slug": "photography-videography",
       "description": "Capture your brand story through cinematic visuals that evoke emotion and desire.",
       "icon": "Camera",
+      "videoUrl": "/videos/services/photography.mp4",
       "subServices": [
         "Commercial Photography",
         "Event Coverage",
@@ -99,6 +102,7 @@
       "slug": "social-media-marketing",
       "description": "Build engaged communities and amplify your brand voice across every platform.",
       "icon": "Share2",
+      "videoUrl": "/videos/services/digital.mp4",
       "subServices": [
         "Social Media Management",
         "Content Creation",
@@ -112,6 +116,7 @@
       "slug": "digital-advertising",
       "description": "Drive measurable growth with data-driven campaigns that convert and captivate.",
       "icon": "TrendingUp",
+      "videoUrl": "/videos/services/digital.mp4",
       "subServices": [
         "PPC Campaigns",
         "Display Advertising",

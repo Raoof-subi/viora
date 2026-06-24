@@ -1,11 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { fadeInUp } from "@/lib/motion";
 import type { Testimonial } from "@/types";
@@ -23,6 +23,13 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const quoteY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+
   useEffect(() => {
     if (!emblaApi) return;
     const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
@@ -34,7 +41,7 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
   }, [emblaApi]);
 
   return (
-    <section id="testimonials" className="section-padding">
+    <section id="testimonials" ref={sectionRef} className="section-padding">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           title="Client Testimonials"
@@ -56,7 +63,9 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
                   className="min-w-0 flex-[0_0_100%] px-4 md:flex-[0_0_80%] lg:flex-[0_0_60%]"
                 >
                   <div className="glass-card mx-auto max-w-3xl rounded-3xl p-8 md:p-12">
-                    <Quote className="mb-6 h-10 w-10 text-gold/40" />
+                    <motion.div style={{ y: quoteY }}>
+                      <Quote className="mb-6 h-10 w-10 text-gold/40" />
+                    </motion.div>
                     <blockquote className="font-serif text-xl leading-relaxed text-foreground md:text-2xl">
                       &ldquo;{testimonial.quote}&rdquo;
                     </blockquote>

@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { projectTypes } from "@/data/sample";
-import { fadeInUp, staggerContainer } from "@/lib/motion";
+import { slideInLeft, slideInRight, defaultViewport } from "@/lib/motion";
 import type { SiteSettings } from "@/types";
 
 const contactSchema = z.object({
@@ -83,14 +83,20 @@ export function Contact({ settings }: ContactProps) {
 
         <div className="grid gap-16 lg:grid-cols-2">
           <motion.form
-            variants={staggerContainer}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.1, delayChildren: 0.15 },
+              },
+            }}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
+            viewport={defaultViewport}
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-6"
           >
-            <motion.div variants={fadeInUp} className="grid gap-6 sm:grid-cols-2">
+            <motion.div variants={slideInLeft} className="grid gap-6 sm:grid-cols-2">
               <div>
                 <Label htmlFor="name">Name *</Label>
                 <Input id="name" placeholder="Your name" className="mt-2" {...register("name")} />
@@ -104,7 +110,7 @@ export function Contact({ settings }: ContactProps) {
               </div>
             </motion.div>
 
-            <motion.div variants={fadeInUp} className="grid gap-6 sm:grid-cols-2">
+            <motion.div variants={slideInLeft} className="grid gap-6 sm:grid-cols-2">
               <div>
                 <Label htmlFor="email">Email *</Label>
                 <Input id="email" type="email" placeholder="you@company.com" className="mt-2" {...register("email")} />
@@ -118,7 +124,7 @@ export function Contact({ settings }: ContactProps) {
               </div>
             </motion.div>
 
-            <motion.div variants={fadeInUp}>
+            <motion.div variants={slideInLeft}>
               <Label>Project Type *</Label>
               <Select onValueChange={(value) => setValue("projectType", value)}>
                 <SelectTrigger className="mt-2">
@@ -137,7 +143,7 @@ export function Contact({ settings }: ContactProps) {
               )}
             </motion.div>
 
-            <motion.div variants={fadeInUp}>
+            <motion.div variants={slideInLeft}>
               <Label htmlFor="message">Message *</Label>
               <Textarea
                 id="message"
@@ -150,7 +156,7 @@ export function Contact({ settings }: ContactProps) {
               )}
             </motion.div>
 
-            <motion.div variants={fadeInUp}>
+            <motion.div variants={slideInLeft}>
               <GoldButton type="submit" size="lg" disabled={status === "loading"} className="w-full sm:w-auto">
                 {status === "loading" ? (
                   <>
@@ -175,13 +181,19 @@ export function Contact({ settings }: ContactProps) {
           </motion.form>
 
           <motion.div
-            variants={staggerContainer}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+              },
+            }}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
+            viewport={defaultViewport}
             className="space-y-8"
           >
-            <motion.div variants={fadeInUp} className="glass-card rounded-3xl p-8">
+            <motion.div variants={slideInRight} className="glass-card rounded-3xl p-8">
               <h3 className="font-serif text-2xl font-semibold text-gold">Contact Details</h3>
               <ul className="mt-6 space-y-4 text-muted">
                 <li>{settings.email}</li>
@@ -190,7 +202,7 @@ export function Contact({ settings }: ContactProps) {
               </ul>
             </motion.div>
 
-            <motion.div variants={fadeInUp}>
+            <motion.div variants={slideInRight}>
               <a
                 href={whatsappUrl}
                 target="_blank"
@@ -205,7 +217,7 @@ export function Contact({ settings }: ContactProps) {
               </a>
             </motion.div>
 
-            <motion.div variants={fadeInUp}>
+            <motion.div variants={slideInRight}>
               <p className="mb-4 text-sm uppercase tracking-widest text-muted">Follow Us</p>
               <div className="flex gap-4">
                 {settings.socialLinks.map((social) => (

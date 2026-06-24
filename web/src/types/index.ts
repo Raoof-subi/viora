@@ -34,6 +34,7 @@ export interface Service {
   description: string;
   subServices: string[];
   icon: string;
+  videoUrl?: string;
 }
 
 export interface PortfolioItem {
