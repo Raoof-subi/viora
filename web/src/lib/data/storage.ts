@@ -12,6 +12,7 @@ import {
 import {
   canWriteToGithub,
   getStorageFilePaths,
+  getGithubTokenSetupMessage,
   isGithubStorageConfigured,
 } from "@/lib/data/storage-config";
 import type { PageData, SiteSettings } from "@/types";
@@ -69,13 +70,29 @@ function canWriteToLocalDisk(): boolean {
 
 async function writeLocalJsonFile(filePath: string, content: unknown): Promise<void> {
   if (!canWriteToLocalDisk()) {
-    throw new StorageWriteError(
-      "Local file writes are not available on Vercel. Configure GitHub storage in src/config/storage.json."
-    );
+    throw new StorageWriteError(getGithubTokenSetupMessage());
   }
 
   await ensureLocalDataDir();
   await writeFile(filePath, `${JSON.stringify(content, null, 2)}\n`, "utf-8");
+}
+
+async function writeStorageJsonFile(
+  filePath: string,
+  content: unknown,
+  commitMessage: string,
+  localPath: string
+): Promise<void> {
+  if (canWriteToGithub()) {
+    await writeGithubJsonFile(filePath, content, commitMessage);
+    return;
+  }
+
+  if (isGithubStorageConfigured() && process.env.VERCEL === "1") {
+    throw new StorageWriteError(getGithubTokenSetupMessage());
+  }
+
+  await writeLocalJsonFile(localPath, content);
 }
 
 async function loadPageDataFromLocalDisk(): Promise<PageData | null> {
@@ -122,13 +139,12 @@ export async function loadPageData(): Promise<PageData> {
 
 export async function savePageData(pageData: PageData): Promise<void> {
   const { page: pagePath } = getStorageFilePaths();
-
-  if (canWriteToGithub()) {
-    await writeGithubJsonFile(pagePath, pageData, "Update site page data");
-    return;
-  }
-
-  await writeLocalJsonFile(LOCAL_PAGE_PATH, pageData);
+  await writeStorageJsonFile(
+    pagePath,
+    pageData,
+    "Update site page data",
+    LOCAL_PAGE_PATH
+  );
 }
 
 export async function saveSettings(settings: SiteSettings): Promise<SiteSettings> {
@@ -179,13 +195,12 @@ export async function appendContactSubmission(input: {
   const store: ContactStore = { submissions };
 
   const { contactSubmissions: contactPath } = getStorageFilePaths();
-
-  if (canWriteToGithub()) {
-    await writeGithubJsonFile(contactPath, store, "Add contact form submission");
-    return submission;
-  }
-
-  await writeLocalJsonFile(LOCAL_CONTACT_PATH, store);
+  await writeStorageJsonFile(
+    contactPath,
+    store,
+    "Add contact form submission",
+    LOCAL_CONTACT_PATH
+  );
   return submission;
 }
 

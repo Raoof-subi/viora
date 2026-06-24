@@ -1,6 +1,7 @@
 import {
   canWriteToGithub,
   getGithubConfig,
+  getGithubTokenSetupMessage,
   isGithubStorageConfigured,
 } from "@/lib/data/storage-config";
 
@@ -54,9 +55,7 @@ export async function writeGithubJsonFile(
   message: string
 ): Promise<void> {
   if (!canWriteToGithub()) {
-    throw new StorageWriteError(
-      "GitHub write is not configured. Add your repo details and a personal access token to src/config/storage.json, then redeploy."
-    );
+    throw new StorageWriteError(getGithubTokenSetupMessage());
   }
 
   const apiUrl = contentsApiUrl(filePath);
