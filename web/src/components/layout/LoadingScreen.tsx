@@ -16,7 +16,7 @@ export function LoadingScreen() {
     <AnimatePresence>
       {isLoading && (
         <motion.div
-          className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-black"
+          className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-bg-primary"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -29,12 +29,15 @@ export function LoadingScreen() {
           >
             <Logo size="lg" priority />
             <motion.div
-              className="mt-8 h-px bg-gold"
+              className="mt-8 h-px"
               initial={{ width: 0 }}
               animate={{ width: 200 }}
               transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
+              style={{
+                background: "linear-gradient(90deg, var(--gold-light), var(--gold-primary), var(--gold-deep))",
+              }}
             />
-            <p className="mt-5 text-xs uppercase tracking-[0.4em] text-muted pl-[0.4em]">
+            <p className="mt-5 text-xs uppercase tracking-[0.4em] text-text-muted pl-[0.4em]">
               Creative Agency
             </p>
           </motion.div>

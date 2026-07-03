@@ -1,78 +1,75 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef, useEffect, ReactNode } from "react";
+import { gsap } from "@/lib/gsap";
 import { cn } from "@/lib/utils";
-import type { Variants } from "framer-motion";
-import type { ReactNode } from "react";
-import {
-  fadeInUp,
-  scaleReveal,
-  clipReveal,
-  perspectiveReveal,
-  slideInLeft,
-  slideInRight,
-  staggerContainer,
-  defaultViewport,
-} from "@/lib/motion";
-
-const variantMap: Record<string, Variants> = {
-  fadeInUp,
-  scaleReveal,
-  clipReveal,
-  perspectiveReveal,
-  slideInLeft,
-  slideInRight,
-  staggerContainer,
-};
 
 interface ScrollRevealProps {
   children: ReactNode;
-  variant?:
-    | "fadeInUp"
-    | "scaleReveal"
-    | "clipReveal"
-    | "perspectiveReveal"
-    | "slideInLeft"
-    | "slideInRight"
-    | "staggerContainer";
+  direction?: "up" | "down" | "left" | "right";
   delay?: number;
   className?: string;
-  as?: "div" | "section" | "span";
+  duration?: number;
+  blur?: boolean;
 }
 
 export function ScrollReveal({
   children,
-  variant = "fadeInUp",
+  direction = "up",
   delay = 0,
   className,
-  as = "div",
+  duration = 0.8,
+  blur = true,
 }: ScrollRevealProps) {
-  const selected = variantMap[variant] ?? fadeInUp;
+  const ref = useRef<HTMLDivElement>(null);
 
-  const variants: Variants = {
-    hidden: selected.hidden,
-    visible: {
-      ...selected.visible,
-      transition: {
-        ...(typeof selected.visible === "object" && selected.visible !== null && "transition" in selected.visible
-          ? (selected.visible as { transition?: Record<string, unknown> }).transition
-          : {}),
-        delay,
-      },
-    },
-  };
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
 
-  const Component = motion[as as keyof typeof motion] as typeof motion.div;
+    const dirMap = {
+      up: { y: 50, x: 0 },
+      down: { y: -50, x: 0 },
+      left: { x: 40, y: 0 },
+      right: { x: -40, y: 0 },
+    };
+
+    const { x, y } = dirMap[direction];
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        el,
+        {
+          opacity: 0,
+          y,
+          x,
+          filter: blur ? "blur(8px)" : "blur(0px)",
+          scale: 0.95,
+        },
+        {
+          opacity: 1,
+          y: 0,
+          x: 0,
+          filter: "blur(0px)",
+          scale: 1,
+          duration,
+          delay,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            once: true,
+          },
+        },
+      );
+    });
+
+    return () => ctx.revert();
+  }, [direction, delay, duration, blur]);
 
   return (
-    <Component
-      variants={variants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={defaultViewport}
-      className={cn(className)}
-    >
+    <div ref={ref} className={cn(className)}>
       {children}
-    </Component>
+    </div>
   );
 }

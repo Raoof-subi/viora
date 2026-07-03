@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { GoldButton } from "@/components/ui/GoldButton";
-import { fadeInUp, staggerContainer } from "@/lib/motion";
+import { FluidButton } from "@/components/ui/FluidButton";
+import { GradientBlob } from "@/components/ui/GradientBlob";
+import { gsap } from "@/lib/gsap";
 import { scrollToSection } from "@/lib/utils";
 import type { SiteSettings } from "@/types";
 
@@ -12,27 +13,80 @@ interface HeroProps {
   settings: SiteSettings;
 }
 
+function splitIntoChars(text: string) {
+  return text.split("").map((char, i) => (
+    <span key={i} className="inline-block char" style={{ whiteSpace: char === " " ? "pre" : undefined }}>
+      {char === " " ? "\u00A0" : char}
+    </span>
+  ));
+}
+
 export function Hero({ settings }: HeroProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const labelRef = useRef<HTMLParagraphElement>(null);
+  const subheadRef = useRef<HTMLParagraphElement>(null);
+  const ctasRef = useRef<HTMLDivElement>(null);
   const [videoFailed, setVideoFailed] = useState(false);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
   const bgOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.3]);
 
-  const headlineWords = settings.heroHeadline.split(" ");
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      tl.fromTo(
+        labelRef.current,
+        { opacity: 0, y: 20, filter: "blur(8px)" },
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.9 },
+      );
+
+      tl.fromTo(
+        ".hero-char",
+        { opacity: 0, y: 80, filter: "blur(12px)", rotationX: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          rotationX: 0,
+          duration: 1,
+          stagger: { each: 0.025, from: "random" },
+          ease: "back.out(1.2)",
+        },
+        "-=0.5",
+      );
+
+      tl.fromTo(
+        subheadRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8 },
+        "-=0.4",
+      );
+
+      tl.fromTo(
+        ".hero-cta",
+        { opacity: 0, y: 20, scale: 0.95 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.7, stagger: 0.12, ease: "back.out(1.4)" },
+        "-=0.3",
+      );
+    });
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section id="hero" ref={sectionRef} className="relative flex min-h-screen items-center justify-center overflow-hidden">
-      {/* Ambient Glows */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="ambient-glow animate-float bg-gold/20 w-[600px] h-[600px] top-[-10%] left-[-10%]" />
-        <div className="ambient-glow animate-float bg-white/10 w-[400px] h-[400px] bottom-[10%] right-[-5%]" style={{ animationDelay: '2s' }} />
-        <div className="ambient-glow animate-float bg-gold-light/10 w-[500px] h-[500px] top-[40%] left-[60%]" style={{ animationDelay: '4s' }} />
+        <GradientBlob color="gold" size="lg" className="top-[-20%] left-[-15%] animate-pulse-glow" />
+        <GradientBlob color="warm" size="md" className="top-[50%] right-[-15%]" />
+        <GradientBlob color="bronze" size="lg" className="bottom-[-25%] left-[30%]" />
       </div>
 
       <motion.div style={{ y, scale: bgScale, opacity: bgOpacity }} className="absolute inset-0">
@@ -55,60 +109,39 @@ export function Hero({ settings }: HeroProps) {
             style={{ backgroundImage: `url(${settings.heroPosterUrl})` }}
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-bg-primary/90 via-bg-primary/60 to-bg-primary" />
       </motion.div>
 
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        animate="visible"
-        className="relative z-10 mx-auto max-w-5xl px-6 text-center md:px-12"
-      >
-        <motion.p
-          variants={fadeInUp}
-          className="mb-6 text-xs uppercase tracking-[0.5em] text-gold md:text-sm font-semibold drop-shadow-md"
-        >
+      <div className="relative z-10 mx-auto max-w-5xl px-6 text-center md:px-12">
+        <p ref={labelRef} className="mb-6 text-xs uppercase tracking-[0.5em] text-gold font-semibold md:text-sm">
           Luxury Creative Agency
-        </motion.p>
-        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 overflow-hidden">
-          {headlineWords.map((word, i) => (
-            <motion.h1
-              key={i}
-              variants={{
-                hidden: { y: "100%", opacity: 0, rotate: 5 },
-                visible: { y: "0%", opacity: 1, rotate: 0, transition: { type: "spring", damping: 15, stiffness: 100 } }
-              }}
-              className="font-serif text-5xl font-bold leading-tight tracking-tight text-white md:text-7xl lg:text-8xl drop-shadow-2xl"
-            >
-              {word}
-            </motion.h1>
-          ))}
-        </div>
-        <motion.p
-          variants={fadeInUp}
-          className="mx-auto mt-8 max-w-2xl text-lg text-white/80 md:text-xl font-light"
-        >
+        </p>
+
+        <h1 ref={headlineRef} className="font-serif text-5xl font-bold leading-tight tracking-tight text-white md:text-7xl lg:text-8xl">
+          {splitIntoChars(settings.heroHeadline)}
+        </h1>
+
+        <p ref={subheadRef} className="mx-auto mt-8 max-w-2xl text-lg text-white/70 md:text-xl font-light">
           {settings.heroSubheading}
-        </motion.p>
-        <motion.div
-          variants={fadeInUp}
-          className="mt-12 flex flex-col items-center justify-center gap-6 sm:flex-row"
-        >
-          <GoldButton size="lg" onClick={() => scrollToSection("portfolio")}>
-            View Our Work
-          </GoldButton>
-          <GoldButton
-            size="lg"
-            variant="outline"
-            glow={false}
-            onClick={() => scrollToSection("contact")}
-            className="border-white/20 hover:border-gold hover:text-gold transition-colors"
-          >
-            Start a Project
-          </GoldButton>
-        </motion.div>
-      </motion.div>
+        </p>
+
+        <div ref={ctasRef} className="mt-12 flex flex-col items-center justify-center gap-6 sm:flex-row">
+          <span className="hero-cta inline-block">
+            <FluidButton size="lg" onClick={() => scrollToSection("portfolio")}>
+              View Our Work
+            </FluidButton>
+          </span>
+          <span className="hero-cta inline-block">
+            <FluidButton
+              size="lg"
+              variant="outline"
+              onClick={() => scrollToSection("contact")}
+            >
+              Start a Project
+            </FluidButton>
+          </span>
+        </div>
+      </div>
 
       <motion.button
         initial={{ opacity: 0 }}
@@ -122,7 +155,7 @@ export function Hero({ settings }: HeroProps) {
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
         >
-          <ChevronDown className="h-10 w-10 drop-shadow-lg" />
+          <ChevronDown className="h-10 w-10" />
         </motion.div>
       </motion.button>
     </section>

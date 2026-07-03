@@ -184,7 +184,7 @@
       "client": "Prestige Foundation",
       "year": 2024,
       "description": "Charity gala with 300 VIP guests.",
-      "imageUrl": "https://images.unsplash.com/photo-1505373877841-8d25f2941293?auto=format&fit=crop&w=800&q=80"
+      "imageUrl": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80"
     },
     {
       "_id": "p7",
@@ -353,32 +353,32 @@
     {
       "_id": "c3",
       "name": "Velvet",
-      "logoUrl": "https://images.unsplash.com/photo-1614680376593-902f74cfd0e5?auto=format&fit=crop&w=120&q=80"
+      "logoUrl": "https://ui-avatars.com/api/?name=Velvet&background=1a1a2e&color=d4af37&size=120&bold=true&format=png"
     },
     {
       "_id": "c4",
       "name": "Summit",
-      "logoUrl": "https://images.unsplash.com/photo-1611162616305-c69b3037a141?auto=format&fit=crop&w=120&q=80"
+      "logoUrl": "https://ui-avatars.com/api/?name=Summit&background=1a1a2e&color=d4af37&size=120&bold=true&format=png"
     },
     {
       "_id": "c5",
       "name": "Elite",
-      "logoUrl": "https://images.unsplash.com/photo-1614680376578-d85a9e5fe599?auto=format&fit=crop&w=120&q=80"
+      "logoUrl": "https://ui-avatars.com/api/?name=Elite&background=1a1a2e&color=d4af37&size=120&bold=true&format=png"
     },
     {
       "_id": "c6",
       "name": "Chronos",
-      "logoUrl": "https://images.unsplash.com/photo-1611532736328-9b1b4462e237?auto=format&fit=crop&w=120&q=80"
+      "logoUrl": "https://ui-avatars.com/api/?name=Chronos&background=1a1a2e&color=d4af37&size=120&bold=true&format=png"
     },
     {
       "_id": "c7",
       "name": "Azure",
-      "logoUrl": "https://images.unsplash.com/photo-1611162616475-46b635cb6848?auto=format&fit=crop&w=120&q=80"
+      "logoUrl": "https://ui-avatars.com/api/?name=Azure&background=1a1a2e&color=d4af37&size=120&bold=true&format=png"
     },
     {
       "_id": "c8",
       "name": "Bloom",
-      "logoUrl": "https://images.unsplash.com/photo-1614680376739-4145a5e2240f?auto=format&fit=crop&w=120&q=80"
+      "logoUrl": "https://ui-avatars.com/api/?name=Bloom&background=1a1a2e&color=d4af37&size=120&bold=true&format=png"
     }
   ]
 }

@@ -1,14 +1,24 @@
 import type { Variants, Transition } from "framer-motion";
 
-const springSmooth: Transition = {
+const smoothSpring: Transition = {
   type: "spring",
-  stiffness: 80,
+  stiffness: 60,
   damping: 20,
 };
 
 const easeOutExpo: Transition = {
-  duration: 0.8,
+  duration: 0.9,
   ease: [0.22, 1, 0.36, 1],
+};
+
+export const bloomIn: Variants = {
+  hidden: { opacity: 0, scale: 0.9, filter: "blur(10px)" },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
+  },
 };
 
 export const fadeInUp: Variants = {
@@ -28,11 +38,29 @@ export const fadeIn: Variants = {
   },
 };
 
+export const morphReveal: Variants = {
+  hidden: { opacity: 0, scale: 0.85, borderRadius: "40%", filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    borderRadius: "16px",
+    filter: "blur(0px)",
+    transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+export const gentleFloat: Variants = {
+  animate: {
+    y: [0, -12, 0],
+    transition: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+  },
+};
+
 export const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
   },
 };
 
@@ -41,7 +69,7 @@ export const scaleReveal: Variants = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: springSmooth,
+    transition: smoothSpring,
   },
 };
 
@@ -54,13 +82,12 @@ export const clipReveal: Variants = {
 };
 
 export const perspectiveReveal: Variants = {
-  hidden: { opacity: 0, y: 60, rotateX: -15, scale: 0.95 },
+  hidden: { opacity: 0, y: 40, scale: 0.92 },
   visible: {
     opacity: 1,
     y: 0,
-    rotateX: 0,
     scale: 1,
-    transition: springSmooth,
+    transition: smoothSpring,
   },
 };
 
@@ -82,17 +109,16 @@ export const slideInRight: Variants = {
   },
 };
 
-export const wordReveal: Variants = {
-  hidden: { opacity: 0, y: 60, rotateX: -20, scale: 0.9 },
+export const wordBloom: Variants = {
+  hidden: { opacity: 0, y: 40, filter: "blur(8px)" },
   visible: {
     opacity: 1,
     y: 0,
-    rotateX: 0,
-    scale: 1,
+    filter: "blur(0px)",
     transition: {
       type: "spring",
-      damping: 14,
-      stiffness: 90,
+      damping: 16,
+      stiffness: 80,
     },
   },
 };

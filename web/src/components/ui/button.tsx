@@ -10,8 +10,8 @@ const buttonVariants = cva(
       variant: {
         default: "bg-gold text-black hover:bg-gold-light shadow-luxury hover:shadow-luxury-hover",
         outline:
-          "border border-gold/40 bg-transparent text-gold hover:bg-gold/10 hover:border-gold",
-        ghost: "text-foreground hover:bg-white/5 hover:text-gold",
+          "border border-gold/30 bg-transparent text-gold hover:bg-gold/10 hover:border-gold",
+        ghost: "text-text-secondary hover:text-gold hover:bg-gold/5",
         link: "text-gold underline-offset-4 hover:underline",
       },
       size: {
@@ -25,7 +25,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 export interface ButtonProps

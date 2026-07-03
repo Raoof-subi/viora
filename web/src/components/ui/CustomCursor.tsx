@@ -7,16 +7,23 @@ export function CustomCursor() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isPointer, setIsPointer] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
-      
       const target = e.target as HTMLElement;
-      // Check if the target or any of its parents is a clickable element
       const isClickable = target.closest("button, a, input, select, textarea, [role='button'], .cursor-pointer");
       setIsPointer(!!isClickable);
-      
       if (!isVisible) setIsVisible(true);
     };
 
@@ -32,14 +39,12 @@ export function CustomCursor() {
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
     };
-  }, [isVisible]);
+  }, [isVisible, isMobile]);
 
-  // Hide on small devices
-  if (typeof window !== 'undefined' && window.innerWidth < 768) return null;
+  if (isMobile) return null;
 
   return (
     <>
-      {/* Small dot that follows instantly */}
       <motion.div
         className="fixed top-0 left-0 z-[100] h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold pointer-events-none mix-blend-screen"
         animate={{
@@ -50,10 +55,9 @@ export function CustomCursor() {
         }}
         transition={{ type: "tween", ease: "backOut", duration: 0.1 }}
       />
-      
-      {/* Outer ring that lags behind slightly */}
+
       <motion.div
-        className="fixed top-0 left-0 z-[99] h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold pointer-events-none mix-blend-screen flex items-center justify-center shadow-gold-glow backdrop-blur-[2px]"
+        className="fixed top-0 left-0 z-[99] h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full border border-gold pointer-events-none mix-blend-screen flex items-center justify-center shadow-gold-glow"
         animate={{
           x: position.x,
           y: position.y,
@@ -63,7 +67,7 @@ export function CustomCursor() {
         }}
         transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.5 }}
       >
-        <motion.span 
+        <motion.span
           className="text-[10px] font-bold text-gold uppercase tracking-widest"
           animate={{ opacity: isPointer ? 1 : 0, scale: isPointer ? 1 : 0.5 }}
           transition={{ duration: 0.2 }}

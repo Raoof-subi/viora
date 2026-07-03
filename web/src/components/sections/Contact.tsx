@@ -8,7 +8,9 @@ import { motion } from "framer-motion";
 import { MessageCircle, Loader2 } from "lucide-react";
 import { SocialIcon } from "@/components/ui/SocialIcons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { GoldButton } from "@/components/ui/GoldButton";
+import { FluidButton } from "@/components/ui/FluidButton";
+import { GradientBlob } from "@/components/ui/GradientBlob";
+import { OrganicCard } from "@/components/ui/OrganicCard";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -74,8 +76,11 @@ export function Contact({ settings }: ContactProps) {
   const whatsappUrl = `https://wa.me/${settings.whatsappNumber.replace(/\D/g, "")}?text=${encodeURIComponent("Hello VIORA, I'd like to discuss a project.")}`;
 
   return (
-    <section id="contact" className="section-padding bg-gradient-to-b from-black via-zinc-950/30 to-black">
-      <div className="mx-auto max-w-7xl">
+    <section id="contact" className="relative section-padding bg-gradient-to-b from-bg-primary via-bg-secondary to-bg-primary overflow-hidden">
+      <GradientBlob color="gold" size="lg" className="top-[30%] right-[-15%] animate-pulse-glow" />
+      <GradientBlob color="warm" size="md" className="bottom-[10%] left-[-10%]" />
+
+      <div className="relative z-10 mx-auto max-w-7xl">
         <SectionHeading
           title="Get In Touch"
           subtitle="Let's create something extraordinary together"
@@ -157,7 +162,7 @@ export function Contact({ settings }: ContactProps) {
             </motion.div>
 
             <motion.div variants={slideInLeft}>
-              <GoldButton type="submit" size="lg" disabled={status === "loading"} className="w-full sm:w-auto">
+              <FluidButton type="submit" size="lg" disabled={status === "loading"} className="w-full sm:w-auto">
                 {status === "loading" ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -166,7 +171,7 @@ export function Contact({ settings }: ContactProps) {
                 ) : (
                   "Send Message"
                 )}
-              </GoldButton>
+              </FluidButton>
               {status === "success" && (
                 <p className="mt-3 text-sm text-green-400">
                   Thank you! We&apos;ll be in touch shortly.
@@ -193,13 +198,15 @@ export function Contact({ settings }: ContactProps) {
             viewport={defaultViewport}
             className="space-y-8"
           >
-            <motion.div variants={slideInRight} className="glass-card rounded-3xl p-8">
-              <h3 className="font-serif text-2xl font-semibold text-gold">Contact Details</h3>
-              <ul className="mt-6 space-y-4 text-muted">
-                <li>{settings.email}</li>
-                <li>{settings.phone}</li>
-                <li>{settings.address}</li>
-              </ul>
+            <motion.div variants={slideInRight}>
+              <OrganicCard glowColor="gold" className="p-8">
+                <h3 className="font-serif text-2xl font-semibold gradient-text">Contact Details</h3>
+                <ul className="mt-6 space-y-4 text-text-secondary">
+                  <li>{settings.email}</li>
+                  <li>{settings.phone}</li>
+                  <li>{settings.address}</li>
+                </ul>
+              </OrganicCard>
             </motion.div>
 
             <motion.div variants={slideInRight}>
@@ -211,27 +218,27 @@ export function Contact({ settings }: ContactProps) {
               >
                 <MessageCircle className="h-8 w-8 text-green-400" />
                 <div>
-                  <p className="font-semibold text-foreground">Chat on WhatsApp</p>
-                  <p className="text-sm text-muted">Get a quick response from our team</p>
+                  <p className="font-semibold text-text-primary">Chat on WhatsApp</p>
+                  <p className="text-sm text-text-secondary">Get a quick response from our team</p>
                 </div>
               </a>
             </motion.div>
 
             <motion.div variants={slideInRight}>
-              <p className="mb-4 text-sm uppercase tracking-widest text-muted">Follow Us</p>
+              <p className="mb-4 text-sm uppercase tracking-widest text-text-secondary">Follow Us</p>
               <div className="flex gap-4">
                 {settings.socialLinks.map((social) => (
-                    <a
-                      key={social.platform}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 text-muted transition-all hover:border-gold hover:text-gold"
-                      aria-label={social.platform}
-                    >
-                      <SocialIcon platform={social.platform} className="h-5 w-5" />
-                    </a>
-                  ))}
+                  <a
+                    key={social.platform}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex h-12 w-12 items-center justify-center rounded-xl border border-surface-border text-text-secondary transition-all hover:border-accent-violet/30 hover:text-accent-violet"
+                    aria-label={social.platform}
+                  >
+                    <SocialIcon platform={social.platform} className="h-5 w-5" />
+                  </a>
+                ))}
               </div>
             </motion.div>
           </motion.div>

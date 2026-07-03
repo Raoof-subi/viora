@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Menu } from "lucide-react";
-import { GoldButton } from "@/components/ui/GoldButton";
+import { FluidButton } from "@/components/ui/FluidButton";
 import {
   Sheet,
   SheetContent,
@@ -50,7 +50,7 @@ export function Navbar({ settings }: NavbarProps) {
       transition={{ duration: 0.8, delay: 2.2, ease: [0.22, 1, 0.36, 1] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "border-b border-white/5 bg-black/80 backdrop-blur-xl"
+          ? "border-b border-surface-border bg-bg-primary/80 backdrop-blur-xl"
           : "bg-transparent"
       }`}
     >
@@ -64,19 +64,19 @@ export function Navbar({ settings }: NavbarProps) {
             <button
               key={link.href}
               onClick={() => handleNavClick(link.href)}
-              className="text-sm uppercase tracking-widest text-muted transition-colors hover:text-gold"
+              className="text-sm uppercase tracking-widest text-text-secondary transition-colors hover:text-text-primary"
             >
               {link.label}
             </button>
           ))}
-          <GoldButton size="sm" onClick={() => handleNavClick("contact")}>
+          <FluidButton size="sm" onClick={() => handleNavClick("contact")}>
             Start a Project
-          </GoldButton>
+          </FluidButton>
         </div>
 
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild className="lg:hidden">
-            <button className="text-foreground" aria-label="Open menu">
+            <button className="text-text-primary" aria-label="Open menu">
               <Menu className="h-6 w-6" />
             </button>
           </SheetTrigger>
@@ -90,14 +90,14 @@ export function Navbar({ settings }: NavbarProps) {
                 <button
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
-                  className="text-left text-lg uppercase tracking-widest text-muted transition-colors hover:text-gold"
+                  className="text-left text-lg uppercase tracking-widest text-text-secondary transition-colors hover:text-text-primary"
                 >
                   {link.label}
                 </button>
               ))}
-              <GoldButton onClick={() => handleNavClick("contact")}>
+              <FluidButton onClick={() => handleNavClick("contact")}>
                 Start a Project
-              </GoldButton>
+              </FluidButton>
             </div>
           </SheetContent>
         </Sheet>

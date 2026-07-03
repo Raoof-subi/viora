@@ -7,13 +7,16 @@ export function ScrollProgress() {
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold-light via-gold to-gold-dark origin-left z-[100] shadow-[0_0_10px_rgba(212,175,55,0.8)]"
-      style={{ scaleX }}
+      className="fixed top-0 left-0 right-0 h-1 origin-left z-[100]"
+      style={{
+        scaleX,
+        background: "linear-gradient(90deg, var(--gold-light), var(--gold-primary), var(--gold-deep))",
+      }}
     />
   );
 }

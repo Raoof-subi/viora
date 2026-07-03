@@ -7,6 +7,8 @@ import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { GradientBlob } from "@/components/ui/GradientBlob";
+import { OrganicCard } from "@/components/ui/OrganicCard";
 import { fadeInUp } from "@/lib/motion";
 import type { Testimonial } from "@/types";
 
@@ -41,8 +43,11 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
   }, [emblaApi]);
 
   return (
-    <section id="testimonials" ref={sectionRef} className="section-padding">
-      <div className="mx-auto max-w-7xl">
+    <section id="testimonials" ref={sectionRef} className="relative section-padding overflow-hidden">
+      <GradientBlob color="gold" size="lg" className="top-[20%] left-[-15%] animate-pulse-glow" />
+      <GradientBlob color="warm" size="md" className="bottom-[10%] right-[-10%]" />
+
+      <div className="relative z-10 mx-auto max-w-7xl">
         <SectionHeading
           title="Client Testimonials"
           subtitle="Trusted by leading luxury brands worldwide"
@@ -62,15 +67,15 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
                   key={testimonial._id}
                   className="min-w-0 flex-[0_0_100%] px-4 md:flex-[0_0_80%] lg:flex-[0_0_60%]"
                 >
-                  <div className="glass-card mx-auto max-w-3xl rounded-3xl p-8 md:p-12">
+                  <OrganicCard glowColor="gold" className="mx-auto max-w-3xl p-8 md:p-12">
                     <motion.div style={{ y: quoteY }}>
-                      <Quote className="mb-6 h-10 w-10 text-gold/40" />
+                      <Quote className="mb-6 h-10 w-10 text-accent-violet/40" />
                     </motion.div>
-                    <blockquote className="font-serif text-xl leading-relaxed text-foreground md:text-2xl">
+                    <blockquote className="font-serif text-xl leading-relaxed text-text-primary md:text-2xl">
                       &ldquo;{testimonial.quote}&rdquo;
                     </blockquote>
                     <div className="mt-8 flex items-center gap-4">
-                      <div className="relative h-14 w-14 overflow-hidden rounded-full ring-2 ring-gold/30">
+                      <div className="relative h-14 w-14 overflow-hidden rounded-full ring-2 ring-accent-violet/30">
                         <Image
                           src={testimonial.photoUrl}
                           alt={testimonial.name}
@@ -80,18 +85,18 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
                         />
                       </div>
                       <div>
-                        <p className="font-semibold text-foreground">{testimonial.name}</p>
-                        <p className="text-sm text-gold">{testimonial.company}</p>
+                        <p className="font-semibold text-text-primary">{testimonial.name}</p>
+                        <p className="text-sm gradient-text">{testimonial.company}</p>
                       </div>
                       <div className="ml-auto flex gap-0.5">
                         {Array.from({ length: testimonial.rating }).map((_, i) => (
-                          <span key={i} className="text-gold">
+                          <span key={i} className="text-accent-warm">
                             ★
                           </span>
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </OrganicCard>
                 </div>
               ))}
             </div>
@@ -100,7 +105,7 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
           <div className="mt-8 flex items-center justify-center gap-6">
             <button
               onClick={scrollPrev}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 text-muted transition-colors hover:border-gold hover:text-gold"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-surface-border text-text-secondary transition-colors hover:border-accent-violet/30 hover:text-accent-violet"
               aria-label="Previous testimonial"
             >
               <ChevronLeft className="h-5 w-5" />
@@ -112,7 +117,7 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
                   onClick={() => emblaApi?.scrollTo(index)}
                   className={`h-2 rounded-full transition-all ${
                     index === selectedIndex
-                      ? "w-8 bg-gold"
+                      ? "w-8 bg-accent-violet"
                       : "w-2 bg-white/20 hover:bg-white/40"
                   }`}
                   aria-label={`Go to testimonial ${index + 1}`}
@@ -121,7 +126,7 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
             </div>
             <button
               onClick={scrollNext}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 text-muted transition-colors hover:border-gold hover:text-gold"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-surface-border text-text-secondary transition-colors hover:border-accent-violet/30 hover:text-accent-violet"
               aria-label="Next testimonial"
             >
               <ChevronRight className="h-5 w-5" />
