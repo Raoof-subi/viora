@@ -24,20 +24,23 @@ export function Process({ steps }: ProcessProps) {
 
     if (!section || !sticky || !container || cards.length === 0) return;
 
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia();
+
+    // Desktop: cards fly out AND then spread out side-by-side
+    mm.add("(min-width: 768px)", () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
           end: "bottom bottom",
-          scrub: 1.2,
+          scrub: 2,
           pin: sticky,
           anticipatePin: 1,
         },
       });
 
       const total = cards.length;
-      const durationPerCard = 0.25 / total;
+      const durationPerCard = 0.35 / total;
       const colWidth = 100 / total;
 
       cards.forEach((card) => {
@@ -54,7 +57,7 @@ export function Process({ steps }: ProcessProps) {
       });
       gsap.set(cards.slice(1), { xPercent: (_i) => _i * 8 + 8, scale: (_i) => 1 - (_i + 1) * 0.05 });
 
-      tl.to(container, { width: "90vw", duration: 0.4, ease: "power3.inOut" }, 0.5);
+      tl.to(container, { width: "90vw", duration: 0.4, ease: "power3.inOut" }, 0.35);
 
       cards.forEach((card, i) => {
         const flyOutStart = 0.05 + i * durationPerCard;
@@ -91,19 +94,81 @@ export function Process({ steps }: ProcessProps) {
           {
             left: `${i * colWidth}%`,
             right: `${(total - 1 - i) * colWidth}%`,
-            y: 0,
+            y: "8vh",
             opacity: 1,
             scale: 1,
             duration: durationPerCard * 0.8,
             ease: "back.out(1.5)",
             zIndex: 1,
           },
-          0.55,
+          0.4,
         );
       });
     });
 
-    return () => ctx.revert();
+    // Mobile: cards only fly out one by one, NO spreading out side-by-side
+    mm.add("(max-width: 767px)", () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 2,
+          pin: sticky,
+          anticipatePin: 1,
+        },
+      });
+
+      const total = cards.length;
+      const durationPerCard = 1 / total;
+
+      cards.forEach((card) => {
+        card.style.position = "absolute";
+        card.style.top = "0";
+        card.style.bottom = "0";
+      });
+
+      gsap.set(cards, {
+        xPercent: 0,
+        scale: 1,
+        opacity: 1,
+        zIndex: (i) => total - i,
+      });
+      gsap.set(cards.slice(1), { xPercent: (_i) => _i * 8 + 8, scale: (_i) => 1 - (_i + 1) * 0.05 });
+
+      cards.forEach((card, i) => {
+        const flyOutStart = i * durationPerCard;
+
+        if (i > 0) {
+          tl.to(
+            card,
+            {
+              xPercent: 0,
+              scale: 1,
+              duration: durationPerCard * 0.3,
+              ease: "power2.out",
+              zIndex: total,
+            },
+            i * durationPerCard - durationPerCard * 0.25,
+          );
+        }
+
+        tl.to(
+          card,
+          {
+            y: "-120vh",
+            opacity: 0,
+            scale: 0.8,
+            duration: durationPerCard * 0.75,
+            ease: "power2.in",
+            zIndex: total - i,
+          },
+          flyOutStart,
+        );
+      });
+    });
+
+    return () => mm.revert();
   }, [steps.length]);
 
   const setCardRef = (index: number) => (el: HTMLDivElement | null) => {
@@ -111,12 +176,12 @@ export function Process({ steps }: ProcessProps) {
   };
 
   return (
-    <section id="process" ref={sectionRef} className="relative" style={{ height: "400vh" }}>
+    <section id="process" ref={sectionRef} className="relative h-[400vh] md:h-[600vh]">
       <div ref={stickyRef} className="flex h-screen items-center justify-center overflow-visible">
         <GradientBlob color="gold" size="lg" className="top-[10%] left-[5%]" />
         <GradientBlob color="warm" size="md" className="bottom-[10%] right-[5%]" />
 
-        <div className="absolute top-12 md:top-24 left-0 w-full z-10 px-6 md:px-12 lg:px-20 pointer-events-none">
+        <div className="absolute top-8 md:top-32 left-0 w-full z-10 px-6 md:px-12 lg:px-20 pointer-events-none">
           <SectionHeading
             title="Our Process"
             subtitle="A refined approach to delivering exceptional results"
@@ -124,7 +189,7 @@ export function Process({ steps }: ProcessProps) {
           />
         </div>
 
-        <div ref={containerRef} className="relative z-10 mt-24 md:mt-0" style={{ width: "min(360px, calc(100vw - 3rem))", height: "min(500px, 60vh)" }}>
+        <div ref={containerRef} className="relative z-10 mt-36 md:mt-0 md:translate-y-24" style={{ width: "min(360px, calc(100vw - 3rem))", height: "min(500px, 60vh)" }}>
           {steps.map((step, index) => (
             <div
               key={step._id}

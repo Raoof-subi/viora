@@ -54,7 +54,10 @@ export function SectionHeading({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={defaultViewport}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="mx-auto mt-6 max-w-2xl text-lg text-text-secondary md:text-xl font-light"
+          className={cn(
+            "mt-6 max-w-2xl text-lg text-text-secondary md:text-xl font-light",
+            align === "center" ? "mx-auto" : "mr-auto ml-0"
+          )}
         >
           {subtitle}
         </motion.p>

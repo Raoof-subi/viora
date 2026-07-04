@@ -175,77 +175,8 @@
       "year": 2024,
       "description": "Exclusive automotive reveal event in Dubai.",
       "imageUrl": "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      "_id": "p6",
-      "title": "Gala Night Experience",
-      "slug": "gala-night",
-      "category": "events",
-      "client": "Prestige Foundation",
-      "year": 2024,
-      "description": "Charity gala with 300 VIP guests.",
-      "imageUrl": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      "_id": "p7",
-      "title": "Artisan Watch Campaign",
-      "slug": "artisan-watch",
-      "category": "photography",
-      "client": "Chronos",
-      "year": 2025,
-      "description": "Product photography for luxury timepieces.",
-      "imageUrl": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      "_id": "p8",
-      "title": "Coastal Resort Film",
-      "slug": "coastal-resort",
-      "category": "photography",
-      "client": "Azure Resorts",
-      "year": 2024,
-      "description": "Cinematic brand film for a Maldives resort.",
-      "imageUrl": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      "_id": "p9",
-      "title": "Chef's Table Series",
-      "slug": "chefs-table",
-      "category": "photography",
-      "client": "Maison Dining",
-      "year": 2024,
-      "description": "Editorial food photography series.",
-      "imageUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      "_id": "p10",
-      "title": "Bloom Skincare Launch",
-      "slug": "bloom-skincare",
-      "category": "marketing",
-      "client": "Bloom Beauty",
-      "year": 2025,
-      "description": "Integrated digital campaign across social and paid media.",
-      "imageUrl": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      "_id": "p11",
-      "title": "Horizon Real Estate",
-      "slug": "horizon-realestate",
-      "category": "marketing",
-      "client": "Horizon Properties",
-      "year": 2024,
-      "description": "Lead generation campaign for luxury properties.",
-      "imageUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      "_id": "p12",
-      "title": "Pulse Fitness Campaign",
-      "slug": "pulse-fitness",
-      "category": "marketing",
-      "client": "Pulse Athletics",
-      "year": 2024,
-      "description": "Influencer-driven social media campaign.",
-      "imageUrl": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=800&q=80"
     }
+
   ],
   "features": [
     {

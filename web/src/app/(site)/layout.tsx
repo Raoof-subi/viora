@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
+import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { getPageData } from "@/lib/data";
 
 const LoadingScreen = dynamic(() =>
@@ -43,6 +44,7 @@ export default async function SiteLayout({
       <Navbar settings={settings} />
       <main>{children}</main>
       <Footer settings={settings} services={services} />
+      <WhatsAppButton whatsappNumber={settings.whatsappNumber} />
     </>
   );
 }
