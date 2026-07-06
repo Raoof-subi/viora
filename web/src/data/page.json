@@ -10,7 +10,7 @@
     "email": "hello@viora.com",
     "phone": "+1 (555) 123-4567",
     "address": "123 Luxury Avenue, New York, NY 10001",
-    "whatsappNumber": "+15551234567",
+    "whatsappNumber": "+966567790716",
     "socialLinks": [
       {
         "platform": "instagram",
@@ -56,48 +56,6 @@
   "services": [
     {
       "_id": "1",
-      "title": "Branding",
-      "slug": "branding",
-      "description": "Craft distinctive brand identities that command attention and build lasting recognition.",
-      "icon": "Palette",
-      "videoUrl": "/videos/services/branding.mp4",
-      "subServices": [
-        "Brand Strategy",
-        "Logo Design",
-        "Brand Identity",
-        "Packaging Design"
-      ]
-    },
-    {
-      "_id": "2",
-      "title": "Event Management",
-      "slug": "event-management",
-      "description": "Design and execute premium events that leave guests inspired and brands elevated.",
-      "icon": "Calendar",
-      "videoUrl": "/videos/services/events.mp4",
-      "subServices": [
-        "Corporate Events",
-        "Product Launches",
-        "Conferences",
-        "Exhibitions"
-      ]
-    },
-    {
-      "_id": "3",
-      "title": "Photography & Videography",
-      "slug": "photography-videography",
-      "description": "Capture your brand story through cinematic visuals that evoke emotion and desire.",
-      "icon": "Camera",
-      "videoUrl": "/videos/services/photography.mp4",
-      "subServices": [
-        "Commercial Photography",
-        "Event Coverage",
-        "Product Shoots",
-        "Corporate Films"
-      ]
-    },
-    {
-      "_id": "4",
       "title": "Social Media Marketing",
       "slug": "social-media-marketing",
       "description": "Build engaged communities and amplify your brand voice across every platform.",
@@ -111,17 +69,31 @@
       ]
     },
     {
-      "_id": "5",
-      "title": "Digital Advertising",
-      "slug": "digital-advertising",
-      "description": "Drive measurable growth with data-driven campaigns that convert and captivate.",
-      "icon": "TrendingUp",
-      "videoUrl": "/videos/services/digital.mp4",
+      "_id": "2",
+      "title": "Photography & Videography",
+      "slug": "photography-videography",
+      "description": "Capture your brand story through cinematic visuals that evoke emotion and desire.",
+      "icon": "Camera",
+      "videoUrl": "/videos/services/photography.mp4",
       "subServices": [
-        "PPC Campaigns",
-        "Display Advertising",
-        "Retargeting",
-        "Analytics & Reporting"
+        "Commercial Photography",
+        "Event Coverage",
+        "Product Shoots",
+        "Corporate Films"
+      ]
+    },
+    {
+      "_id": "3",
+      "title": "Complete Nikah Packages in Mecca & Medina",
+      "slug": "nikah-packages-mecca-medina",
+      "description": "Blessed and seamless matrimonial planning, coordination, and services in the holy cities of Mecca and Medina.",
+      "icon": "Calendar",
+      "videoUrl": "/videos/services/events.mp4",
+      "subServices": [
+        "Ceremony Coordination",
+        "Document & Legal Assistance",
+        "Luxury Accommodations",
+        "Photography & Videography Setup"
       ]
     }
   ],

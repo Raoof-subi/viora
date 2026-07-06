@@ -21,8 +21,8 @@ export default async function HomePage() {
     <>
       <Hero settings={data.settings} />
       <MarqueeText />
-      <About about={data.about} />
       <Services services={data.services} />
+      <About about={data.about} />
       <Portfolio items={data.portfolio} />
       <MarqueeText />
       <WhyViora features={data.features} />

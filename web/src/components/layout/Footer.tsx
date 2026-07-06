@@ -30,7 +30,7 @@ export function Footer({ settings, services }: FooterProps) {
               Quick Links
             </h4>
             <ul className="space-y-3">
-              {["About", "Services", "Portfolio", "Process", "Contact"].map((item) => (
+              {["Services", "About", "Portfolio", "Process", "Contact"].map((item) => (
                 <li key={item}>
                   <Link
                     href={`#${item.toLowerCase()}`}

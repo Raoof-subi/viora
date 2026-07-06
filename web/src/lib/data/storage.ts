@@ -2,6 +2,7 @@ import defaultAdminData from "@/data/admin.json";
 import defaultContactData from "@/data/contact-submissions.json";
 import defaultPageData from "@/data/page.json";
 import { readFile, writeFile, mkdir } from "fs/promises";
+import { existsSync } from "fs";
 import path from "path";
 import { getLocalDataPath } from "@/lib/data/config";
 import {
@@ -122,6 +123,30 @@ async function loadContactSubmissionsFromLocalDisk(): Promise<ContactSubmission[
 export async function loadPageData(): Promise<PageData> {
   const { page: pagePath } = getStorageFilePaths();
 
+  // In development, prioritize local disk files to support local edits
+  if (process.env.NODE_ENV !== "production") {
+    const fromLocalDisk = await loadPageDataFromLocalDisk();
+    if (fromLocalDisk) {
+      return fromLocalDisk;
+    }
+
+    try {
+      const paths = [
+        path.join(process.cwd(), "src/data/page.json"),
+        path.join(process.cwd(), "web/src/data/page.json"),
+      ];
+      for (const filePath of paths) {
+        if (existsSync(filePath)) {
+          const raw = await readFile(filePath, "utf-8");
+          return JSON.parse(raw) as PageData;
+        }
+      }
+    } catch (e) {
+      console.error("Error reading page.json from disk:", e);
+    }
+  }
+
+  // In production, load from GitHub if configured
   if (isGithubStorageConfigured()) {
     const fromGithub = await readGithubJsonFile<PageData>(pagePath);
     if (fromGithub) {
