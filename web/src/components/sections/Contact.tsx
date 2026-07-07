@@ -56,14 +56,8 @@ export function Contact({ settings }: ContactProps) {
   const onSubmit = async (data: ContactFormData) => {
     setStatus("loading");
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      if (!response.ok) throw new Error("Failed to submit");
-
+      const { submitLead } = await import("@/lib/firebase-client");
+      await submitLead(data);
       setStatus("success");
       reset();
       setTimeout(() => setStatus("idle"), 5000);
