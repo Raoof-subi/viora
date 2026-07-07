@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 interface FluidButtonProps extends ButtonProps {
   gradient?: "gold-warm" | "warm-bronze" | "bronze-light" | "light-gold";
+  showGlow?: boolean;
 }
 
 const gradientMap: Record<string, string> = {
@@ -20,6 +21,7 @@ export function FluidButton({
   className,
   gradient = "gold-warm",
   variant = "default",
+  showGlow = false,
   children,
   ...props
 }: FluidButtonProps) {
@@ -42,7 +44,7 @@ export function FluidButton({
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
       className="relative inline-block"
     >
-      {variant === "default" && (
+      {variant === "default" && showGlow && (
         <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-gold-light via-gold to-gold-deep opacity-75 blur-sm group-hover:opacity-100 transition duration-500" />
       )}
       <Button
@@ -53,7 +55,11 @@ export function FluidButton({
         className={cn(
           "relative transition-all duration-300",
           variant === "default" &&
-            cn("bg-gradient-to-r gradient-shift text-black border-0 shadow-glow-violet hover:shadow-glow-cyan", gradientClass),
+            cn(
+              "bg-gradient-to-r gradient-shift text-black border-0",
+              showGlow && "shadow-glow-violet hover:shadow-glow-cyan",
+              gradientClass
+            ),
           variant === "outline" &&
             "border-gold/30 bg-transparent text-gold hover:bg-gold/10 hover:border-gold",
           variant === "ghost" &&

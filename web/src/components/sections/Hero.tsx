@@ -14,9 +14,16 @@ interface HeroProps {
 }
 
 function splitIntoChars(text: string) {
-  return text.split("").map((char, i) => (
-    <span key={i} className="inline-block char" style={{ whiteSpace: char === " " ? "pre" : undefined }}>
-      {char === " " ? "\u00A0" : char}
+  return text.split(" ").map((word, wordIndex) => (
+    <span key={wordIndex} className="inline-block whitespace-nowrap">
+      {word.split("").map((char, charIndex) => (
+        <span key={charIndex} className="inline-block hero-char">
+          {char}
+        </span>
+      ))}
+      {wordIndex < text.split(" ").length - 1 && (
+        <span className="inline-block">&nbsp;</span>
+      )}
     </span>
   ));
 }
