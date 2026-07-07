@@ -14,23 +14,6 @@ const CARD_W = 450;
 const CARD_GAP = 64;
 const AUTO_INTERVAL = 4000;
 
-function useIsDesktop() {
-  const [isDesktop, setIsDesktop] = useState(
-    typeof window !== "undefined"
-      ? window.matchMedia("(min-width: 768px)").matches
-      : false,
-  );
-
-  useEffect(() => {
-    const mql = window.matchMedia("(min-width: 768px)");
-    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
-  }, []);
-
-  return isDesktop;
-}
-
 function CardContent({ step }: { step: ProcessStep }) {
   return (
     <>
@@ -56,18 +39,30 @@ export function Process({ steps }: ProcessProps) {
   const [activeStep, setActiveStep] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const [vpWidth, setVpWidth] = useState(0);
-  const isDesktop = useIsDesktop();
+  const [isDesktop, setIsDesktop] = useState(false);
   const reducedMotion = useReducedMotion();
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const total = steps.length;
 
   useEffect(() => {
-    const handle = () => setVpWidth(window.innerWidth);
-    handle();
-    window.addEventListener("resize", handle);
-    return () => window.removeEventListener("resize", handle);
+    setMounted(true);
+    const mql = window.matchMedia("(min-width: 768px)");
+    setIsDesktop(mql.matches);
+    setVpWidth(window.innerWidth);
+
+    const handleResize = () => setVpWidth(window.innerWidth);
+    const handleMq = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+
+    window.addEventListener("resize", handleResize);
+    mql.addEventListener("change", handleMq);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      mql.removeEventListener("change", handleMq);
+    };
   }, []);
 
   useEffect(() => {
@@ -130,10 +125,10 @@ export function Process({ steps }: ProcessProps) {
     return () => window.removeEventListener("keydown", handleKey);
   }, [total]);
 
-  const cw = isDesktop ? CARD_W : Math.min(CARD_W, vpWidth - 48);
+  const cw = isDesktop ? CARD_W : Math.max(280, vpWidth - 48);
   const cg = isDesktop ? CARD_GAP : 16;
   const cs = cw + cg;
-  const offset = Math.max(0, (vpWidth - cw) / 2);
+  const offset = mounted ? Math.max(0, (vpWidth - cw) / 2) : 0;
   const tx = offset - activeStep * cs;
 
   const goTo = (i: number) => setActiveStep(Math.max(0, Math.min(i, total - 1)));
@@ -161,11 +156,10 @@ export function Process({ steps }: ProcessProps) {
         <div className="relative mt-16 md:mt-24">
           <div className="relative overflow-hidden">
             <motion.div
-              className="flex items-stretch"
-              style={{ gap: cg }}
-              animate={{ x: reducedMotion ? 0 : tx }}
+              className="flex items-stretch gap-4 md:gap-16"
+              animate={{ x: reducedMotion || !mounted ? 0 : tx }}
               transition={
-                reducedMotion
+                reducedMotion || !mounted
                   ? { duration: 0 }
                   : { type: "spring", stiffness: 70, damping: 25 }
               }
@@ -184,11 +178,11 @@ export function Process({ steps }: ProcessProps) {
                   transition={{ duration: 0.35, ease: "easeOut" }}
                   onClick={() => goTo(i)}
                   className="shrink-0 rounded-3xl border border-surface-border bg-bg-secondary/40 backdrop-blur-md shadow-luxury relative flex flex-col justify-between overflow-hidden p-8 md:p-10 cursor-pointer"
-                  style={{
+                  style={mounted ? {
                     width: cw,
                     height: isDesktop ? 440 : undefined,
                     minHeight: isDesktop ? undefined : 320,
-                  }}
+                  } : undefined}
                 >
                   <CardContent step={step} />
                 </motion.div>

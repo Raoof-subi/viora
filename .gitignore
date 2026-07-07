@@ -13,6 +13,10 @@ web/out/
 web/build/
 web/data/local/
 
+# Firebase service account key (do not commit)
+serviceAccountKey.json
+*/serviceAccountKey.json
+
 # TypeScript
 *.tsbuildinfo
 web/next-env.d.ts
